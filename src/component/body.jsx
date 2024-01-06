@@ -1,12 +1,21 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
 
-
+import { useData } from "../Datacontext/dataContext";
 
 const Body = () => {
 
-    const handleAdd = () => {
+
+    const { sharedData, setSharedData } = useData();
+
+    const handleAdd = (id) => {
         console.log("del")
+        const data = arr.filter((item) => item.id == id);
+        console.log(data[0].name);
+        setSharedData([...sharedData, { name: data[0].name, price: data[0].price }]);
+
     }
+
+
 
 
     const arr = [
@@ -99,7 +108,7 @@ const Body = () => {
 
                     <TableBody>
                         {
-                            arr?.map((item, i) => {
+                            arr?.map((item) => {
 
                                 return (
                                     <>
@@ -123,6 +132,9 @@ const Body = () => {
                 </Table>
             </TableContainer>
 
+            {
+                console.log(sharedData)
+            }
 
         </div>
     )
