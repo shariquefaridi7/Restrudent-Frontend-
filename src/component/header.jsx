@@ -1,10 +1,9 @@
 import { Typography, Badge, Stack, Box, } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useState } from 'react';
-import Model from './model';
+import { useData } from '../Datacontext/dataContext';
 const Nav = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { setopen, count } = useData();
 
     return (
         <div>
@@ -16,12 +15,12 @@ const Nav = () => {
                     bgcolor: "black", color: "white", borderRadius: "5rem", pl: "3rem",
                     pr: "3rem", pt: "1rem", pb: "0.7rem"
                 }}
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setopen(true)}
 
 
                 >
                     <Typography sx={{ pr: "0.5rem", }}>Your Cart </Typography>
-                    <Badge badgeContent={0} color="error">
+                    <Badge badgeContent={count} color="error">
                         <ShoppingCartIcon />
                     </Badge>
                 </Box>
@@ -57,7 +56,7 @@ const Nav = () => {
 
 
             </Box>
-            <Model open={isOpen} setopen={setIsOpen} />
+
         </div >
     )
 }

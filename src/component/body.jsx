@@ -4,18 +4,26 @@ import { useData } from "../Datacontext/dataContext";
 
 const Body = () => {
 
-
-    const { sharedData, setSharedData } = useData();
+    const { sharedData, setSharedData, setAmount, Amount } = useData();
 
     const handleAdd = (id) => {
-        console.log("del")
-        const data = arr.filter((item) => item.id == id);
-        console.log(data[0].name);
-        setSharedData([...sharedData, { name: data[0].name, price: data[0].price }]);
+        const existingProduct = sharedData.find((item, i) => i === id);
+        if (existingProduct) {
+            setSharedData((prev) => {
+                return prev.map((item, i) => {
+                    if (i === id) {
+                        setAmount(Amount + item.price)
+                        return { ...item, no: item.no + 1 };
+                    }
 
-    }
-
-
+                    return item;
+                });
+            })
+        } else {
+            const data = arr.filter((item, i) => i === id);
+            setSharedData((prev) => [...prev, { name: data[0].name, price: data[0].price, no: 1 }]);
+        }
+    };
 
 
     const arr = [
@@ -108,7 +116,7 @@ const Body = () => {
 
                     <TableBody>
                         {
-                            arr?.map((item) => {
+                            arr?.map((item, i) => {
 
                                 return (
                                     <>
@@ -118,7 +126,7 @@ const Body = () => {
                                             <TableCell sx={{ fontSize: "1.3rem" }}>{item?.price}</TableCell>
                                             <TableCell sx={{ width: "23%" }}><img src={item?.img} width="100px" />  </TableCell>
                                             <TableCell>
-                                                <Button variant="contained" color="success" onClick={() => handleAdd(item.id)}>Add</Button>
+                                                <Button variant="contained" color="success" onClick={() => handleAdd(i)}>Add</Button>
                                             </TableCell>
 
                                         </TableRow>
